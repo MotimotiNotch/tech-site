@@ -105,22 +105,52 @@ const STACK = [...new Set(WORKS.flatMap((w) => w.stack))];
 
 const highlightHandlers = [];
 const onHighlight = (fn) => highlightHandlers.push(fn);
-let pinned = null; // タップで固定した光らせ先（{ kind, id }）
-const highlight = (target) => highlightHandlers.forEach((fn) => fn(target ?? pinned));
+// マウスはホバーの間だけ光らせ、押しても何も起きない。
+// タッチにはホバーが無いので、タップで選んだ状態にする（同じものをもう一度か、何も無いところをタップで外す）。
+let selected = null; // タップで選んだ光らせ先（{ kind, id }）
+const highlight = (target) => highlightHandlers.forEach((fn) => fn(target ?? selected));
+const sameTarget = (a, b) => a?.kind === b?.kind && a?.id === b?.id;
+const select = (target) => {
+  selected = sameTarget(selected, target) ? null : target;
+  highlight(null);
+};
+
+// click には pointerType が無いブラウザがあるので、直前の pointerdown で見分ける
+let lastPointer = "mouse";
+document.addEventListener("pointerdown", (e) => (lastPointer = e.pointerType), true);
+const isTouch = () => lastPointer === "touch";
+const hovering = (e) => e.pointerType === "mouse";
+
+// カードの中のタグから離れたときは、そのカードのアプリを光らせ直す
+const cardTarget = (node) => {
+  const card = node.closest(".card");
+  return card ? { kind: "app", id: card.dataset.app } : null;
+};
 
 function tagButton(name) {
-  const b = el("button", { type: "button", class: "tag", "data-tech": name, "aria-pressed": "false" }, name);
-  b.addEventListener("pointerenter", () => highlight({ kind: "tech", id: name }));
-  b.addEventListener("pointerleave", () => highlight(null));
+  const b = el("span", { class: "tag", "data-tech": name, tabindex: "0" }, name);
+  b.addEventListener("pointerenter", (e) => hovering(e) && highlight({ kind: "tech", id: name }));
+  b.addEventListener("pointerleave", (e) => hovering(e) && highlight(cardTarget(b)));
   b.addEventListener("focus", () => highlight({ kind: "tech", id: name }));
   b.addEventListener("blur", () => highlight(null));
-  b.addEventListener("click", () => {
-    pinned = pinned?.id === name ? null : { kind: "tech", id: name };
-    document.querySelectorAll(".tag").forEach((t) => t.setAttribute("aria-pressed", String(pinned?.id === t.dataset.tech)));
-    highlight(null);
+  b.addEventListener("click", (e) => {
+    if (!isTouch()) return;
+    e.stopPropagation();
+    select({ kind: "tech", id: name });
   });
   return b;
 }
+
+document.addEventListener("click", () => {
+  if (isTouch() && selected) select(null);
+});
+
+// 選んだタグ（同じ技術のタグ全部）に印を付ける
+onHighlight(() => {
+  document.querySelectorAll(".tag").forEach((t) => {
+    t.classList.toggle("is-selected", selected?.kind === "tech" && selected.id === t.dataset.tech);
+  });
+});
 
 const stackList = document.getElementById("stack");
 for (const name of STACK) {
@@ -158,8 +188,13 @@ for (const w of WORKS) {
   body.append(links);
 
   card.append(body);
-  card.addEventListener("pointerenter", () => highlight({ kind: "app", id: w.id }));
-  card.addEventListener("pointerleave", () => highlight(null));
+  card.addEventListener("pointerenter", (e) => hovering(e) && highlight({ kind: "app", id: w.id }));
+  card.addEventListener("pointerleave", (e) => hovering(e) && highlight(null));
+  card.addEventListener("click", (e) => {
+    if (!isTouch() || e.target.closest("a")) return; // リンクのタップはそのまま遷移させる
+    e.stopPropagation();
+    select({ kind: "app", id: w.id });
+  });
   cards.append(card);
 }
 
