@@ -215,20 +215,16 @@ const STACK = [...new Set(WORKS.flatMap((w) => w.stack))];
 
 const highlightHandlers = [];
 const onHighlight = (fn) => highlightHandlers.push(fn);
-// マウスはホバーの間だけ光らせ、押しても何も起きない。
-// タッチにはホバーが無いので、タップで選んだ状態にする（同じものをもう一度か、何も無いところをタップで外す）。
-let selected = null; // タップで選んだ光らせ先（{ kind, id }）
-const highlight = (target) => highlightHandlers.forEach((fn) => fn(target ?? selected));
+// 押す（クリック・タップ・Enter）と選んだ状態になる。同じものをもう一度押すか、何も無いところを押すか、Esc で外す。
+// 選んでいる間はホバーで光らせ先を変えない。何も選んでいないときだけ、ホバーとフォーカスで下見として光らせる。
+let selected = null; // 押して選んだ光らせ先（{ kind, id }）
+const highlight = (target) => highlightHandlers.forEach((fn) => fn(selected ?? target));
 const sameTarget = (a, b) => a?.kind === b?.kind && a?.id === b?.id;
 const select = (target) => {
   selected = sameTarget(selected, target) ? null : target;
   highlight(null);
 };
 
-// click には pointerType が無いブラウザがあるので、直前の pointerdown で見分ける
-let lastPointer = "mouse";
-document.addEventListener("pointerdown", (e) => (lastPointer = e.pointerType), true);
-const isTouch = () => lastPointer === "touch";
 const hovering = (e) => e.pointerType === "mouse";
 
 // カードの中のタグから離れたときは、そのカードのアプリを光らせ直す
@@ -238,27 +234,39 @@ const cardTarget = (node) => {
 };
 
 function tagButton(name) {
-  const b = el("span", { class: "tag", "data-tech": name, tabindex: "0" }, name);
+  const b = el("span", { class: "tag", "data-tech": name, role: "button", tabindex: "0", "aria-pressed": "false" }, name);
   b.addEventListener("pointerenter", (e) => hovering(e) && highlight({ kind: "tech", id: name }));
   b.addEventListener("pointerleave", (e) => hovering(e) && highlight(cardTarget(b)));
   b.addEventListener("focus", () => highlight({ kind: "tech", id: name }));
   b.addEventListener("blur", () => highlight(null));
   b.addEventListener("click", (e) => {
-    if (!isTouch()) return;
-    e.stopPropagation();
+    e.stopPropagation(); // カードの中のタグでも、カードではなくタグを選ぶ
+    select({ kind: "tech", id: name });
+  });
+  b.addEventListener("keydown", (e) => {
+    if (e.key !== "Enter" && e.key !== " ") return;
+    e.preventDefault();
     select({ kind: "tech", id: name });
   });
   return b;
 }
 
 document.addEventListener("click", () => {
-  if (isTouch() && selected) select(null);
+  if (selected) select(null);
+});
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && selected) select(null);
 });
 
-// 選んだタグ（同じ技術のタグ全部）に印を付ける
+// 選んだタグ（同じ技術のタグ全部）とカードに印を付ける
 onHighlight(() => {
   document.querySelectorAll(".tag").forEach((t) => {
-    t.classList.toggle("is-selected", selected?.kind === "tech" && selected.id === t.dataset.tech);
+    const on = selected?.kind === "tech" && selected.id === t.dataset.tech;
+    t.classList.toggle("is-selected", on);
+    t.setAttribute("aria-pressed", String(on));
+  });
+  document.querySelectorAll(".card").forEach((c) => {
+    c.classList.toggle("is-selected", selected?.kind === "app" && selected.id === c.dataset.app);
   });
 });
 
@@ -301,8 +309,9 @@ for (const w of WORKS) {
   card.addEventListener("pointerenter", (e) => hovering(e) && highlight({ kind: "app", id: w.id }));
   card.addEventListener("pointerleave", (e) => hovering(e) && highlight(null));
   card.addEventListener("click", (e) => {
-    if (!isTouch() || e.target.closest("a")) return; // リンクのタップはそのまま遷移させる
-    e.stopPropagation();
+    e.stopPropagation(); // 下の「何も無いところで外す」に届かせない
+    if (e.target.closest("a")) return; // リンクはそのまま遷移させ、選択は変えない
+    if (window.getSelection()?.toString()) return; // 文字をなぞって選んだだけなら選択は変えない
     select({ kind: "app", id: w.id });
   });
   cards.append(card);

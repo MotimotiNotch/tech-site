@@ -126,12 +126,14 @@ h2 { font-size: 17px; font-weight: 600; margin: 48px 0 12px; }
   border-radius: 999px;
   background: var(--panel);
   color: var(--fg-muted);
-  cursor: default;
+  cursor: pointer;
 }
-.tag:hover, .tag:focus-visible, .tag.is-selected {
+/* ホバーは「押せる」が分かる程度の無彩色に留め、有彩色は選んだものだけに使う */
+.tag:hover { border-color: var(--fg-faint); color: var(--fg); }
+.tag:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.tag.is-selected {
   border-color: var(--accent);
   color: var(--accent);
-  outline: none;
 }
 
 .cards {
@@ -148,7 +150,10 @@ h2 { font-size: 17px; font-weight: 600; margin: 48px 0 12px; }
   display: flex;
   flex-direction: column;
 }
+.card { cursor: pointer; }
 .card.lit { border-color: var(--accent); }
+/* 押して選んだカードは、光っているだけのカード（同じ技術を使うもの）より一段強くする */
+.card.is-selected { box-shadow: 0 0 0 1px var(--accent); }
 .card img {
   display: block;
   width: 100%;
