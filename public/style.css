@@ -9,18 +9,32 @@
   --accent: #1e6fb8;
   --graph: #222;
   --radius: 6px;
-  color-scheme: light dark;
+  color-scheme: light;
+}
+/* 暗い色は2か所に同じ値を書く: ボタンで選んだとき（data-theme="dark"）と、何も選ばず OS が暗いとき。
+   color-scheme も合わせて切り替えると、構成図の SVG（img）の中の prefers-color-scheme もこちらに追随する。 */
+:root[data-theme="dark"] {
+  --bg: #121316;
+  --panel: #1b1d21;
+  --fg: #e8e8e6;
+  --fg-muted: #a9abaf;
+  --fg-faint: #8d9095; /* 背景・パネルとの比 5.80 / 5.27 */
+  --line: #2e3136;
+  --accent: #64b5f6;
+  --graph: #e8e8e6;
+  color-scheme: dark;
 }
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
     --bg: #121316;
     --panel: #1b1d21;
     --fg: #e8e8e6;
     --fg-muted: #a9abaf;
-    --fg-faint: #8d9095; /* 背景・パネルとの比 5.80 / 5.27 */
+    --fg-faint: #8d9095;
     --line: #2e3136;
     --accent: #64b5f6;
     --graph: #e8e8e6;
+    color-scheme: dark;
   }
 }
 
@@ -59,7 +73,42 @@ a:hover { text-decoration-color: currentColor; }
   margin: 0 auto;
   padding: 0 16px;
 }
-.site-header { padding-top: 64px; padding-bottom: 24px; }
+.site-header { padding-top: 64px; padding-bottom: 24px; position: relative; }
+
+/* 右上の言語と明暗。本文より目立たせない */
+.header-tools {
+  position: absolute;
+  top: 20px;
+  right: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+  color: var(--fg-muted);
+}
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--panel);
+  color: var(--fg-muted);
+  cursor: pointer;
+}
+.theme-toggle:hover, .theme-toggle:focus-visible { color: var(--fg); border-color: var(--fg-faint); outline: none; }
+/* 今が暗ければ太陽（押すと明るく）、明るければ月を出す */
+.theme-toggle .moon { display: block; }
+.theme-toggle .sun { display: none; }
+:root[data-theme="dark"] .theme-toggle .moon { display: none; }
+:root[data-theme="dark"] .theme-toggle .sun { display: block; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .theme-toggle .moon { display: none; }
+  :root:not([data-theme="light"]) .theme-toggle .sun { display: block; }
+}
 h1 { font-size: 28px; font-weight: 600; letter-spacing: 0.02em; margin: 0 0 8px; }
 .lead { margin: 0 0 12px; color: var(--fg-muted); }
 .links { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 14px; }

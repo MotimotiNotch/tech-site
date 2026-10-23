@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>motimotinotch — Things I've built</title>
+  <meta name="description" content="Apps I design, build and run on my own, and the technology behind them.">
+  <link rel="alternate" hreflang="ja" href="https://tech.motimotinotch.com/">
+  <link rel="alternate" hreflang="en" href="https://tech.motimotinotch.com/en/">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/svg+xml" href="/icon.svg">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <script src="/theme.js"></script>
+  <link rel="stylesheet" href="/style.css">
+  <script src="/vendor/d3-subset.min.js" defer></script>
+  <script src="/main.js" defer></script>
+</head>
+<body>
+  <svg id="bg" aria-hidden="true"></svg>
+
+  <header class="site-header">
+    <div class="header-tools">
+      <a href="/" hreflang="ja" lang="ja">日本語</a>
+      <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Dark mode">
+        <svg class="moon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+        <svg class="sun" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+    </div>
+    <h1>motimotinotch</h1>
+    <p class="lead">Apps I take from design through implementation and operation, on my own.</p>
+    <nav class="links" aria-label="External links">
+      <a href="https://github.com/MotimotiNotch">GitHub</a>
+      <a href="https://zenn.dev/motimotinotch">Zenn (Japanese)</a>
+      <a href="https://github.com/MotimotiNotch/tech-site/issues">Contact (GitHub Issues)</a>
+    </nav>
+  </header>
+
+  <main>
+    <section aria-labelledby="stack-heading">
+      <h2 id="stack-heading">Technologies</h2>
+      <p class="note">Hover over a tag or card (tap on mobile) to light up its connections in the background graph.</p>
+      <ul class="tags" id="stack"></ul>
+    </section>
+
+    <section aria-labelledby="works-heading">
+      <h2 id="works-heading">Things I've built</h2>
+      <div class="cards" id="cards"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p><a href="/en/privacy/">Privacy policy</a></p>
+    <p>The background graph is drawn with <a href="/vendor/LICENSE-d3.txt">D3.js</a> (ISC License).</p>
+  </footer>
+</body>
+</html>
