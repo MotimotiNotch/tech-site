@@ -15,8 +15,4 @@ npx wrangler dev
 
 ## 出す
 
-Cloudflare Workers の静的配信（`wrangler.jsonc`）。
-
-```sh
-npx wrangler deploy
-```
+`main` に push すると、Workers Builds（Cloudflare の Git 連携）が `npx wrangler deploy` を走らせる。手で出すことはない。設定は `wrangler.jsonc`（Workers の静的配信、`tech.motimotinotch.com`）。
