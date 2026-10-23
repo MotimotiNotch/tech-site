@@ -1,0 +1,118 @@
+/* 主役はカード（作ったもの）。画面部品は無彩色で静かにし、有彩色はつながりを光らせる1色だけに使う。 */
+:root {
+  --bg: #f4f4f2;
+  --panel: #ffffff;
+  --fg: #222;
+  --fg-muted: #555;
+  --fg-faint: #888;
+  --line: #d9d9d6;
+  --accent: #1e6fb8;
+  --graph: #222;
+  --radius: 6px;
+  color-scheme: light dark;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #121316;
+    --panel: #1b1d21;
+    --fg: #e8e8e6;
+    --fg-muted: #a9abaf;
+    --fg-faint: #75787d;
+    --line: #2e3136;
+    --accent: #64b5f6;
+    --graph: #e8e8e6;
+  }
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: system-ui, -apple-system, "Segoe UI", "Hiragino Sans", "Noto Sans JP", sans-serif;
+  font-size: 15px;
+  line-height: 1.7;
+}
+a { color: inherit; text-underline-offset: 3px; text-decoration-color: var(--fg-faint); }
+a:hover { text-decoration-color: currentColor; }
+
+/* 背景の図: 本文の邪魔をしないよう薄く。光ったところだけ有彩色にする */
+#bg {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+}
+#bg line { stroke: var(--graph); stroke-opacity: 0.07; stroke-width: 1; }
+#bg circle { fill: var(--graph); fill-opacity: 0.14; }
+#bg circle.app { fill-opacity: 0.22; }
+#bg text { fill: var(--graph); fill-opacity: 0.12; font-size: 11px; }
+#bg line.lit { stroke: var(--accent); stroke-opacity: 0.7; stroke-width: 1.5; }
+#bg circle.lit { fill: var(--accent); fill-opacity: 0.9; }
+#bg text.lit { fill: var(--accent); fill-opacity: 1; }
+
+.site-header, main, .site-footer {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+.site-header { padding-top: 64px; padding-bottom: 24px; }
+h1 { font-size: 28px; font-weight: 600; letter-spacing: 0.02em; margin: 0 0 8px; }
+.lead { margin: 0 0 12px; color: var(--fg-muted); }
+.links { display: flex; gap: 16px; font-size: 14px; }
+
+h2 { font-size: 17px; font-weight: 600; margin: 48px 0 12px; }
+.note { margin: 0 0 12px; font-size: 13px; color: var(--fg-faint); }
+
+.tags { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; margin: 0; padding: 0; }
+.tag {
+  font: inherit;
+  font-size: 12px;
+  line-height: 1.5;
+  padding: 2px 10px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--panel);
+  color: var(--fg-muted);
+  cursor: pointer;
+}
+.tag:hover, .tag:focus-visible, .tag[aria-pressed="true"] {
+  border-color: var(--accent);
+  color: var(--accent);
+  outline: none;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 460px), 1fr));
+  gap: 16px;
+}
+/* カードは光った線が下から透けて見える程度にだけ透かす（本文が読める濃さを保つ） */
+.card {
+  background: color-mix(in srgb, var(--panel) 86%, transparent);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.card.lit { border-color: var(--accent); }
+.card img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-bottom: 1px solid var(--line);
+  background: var(--bg);
+}
+.card-body { padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 10px; }
+.card h3 { font-size: 18px; font-weight: 600; margin: 0; }
+.card .summary { margin: 0; }
+.card h4 { font-size: 12px; font-weight: 600; color: var(--fg-faint); margin: 4px 0 0; }
+.card ol { margin: 0; padding-left: 1.4em; color: var(--fg-muted); font-size: 14px; }
+.card .tech { margin: 0; color: var(--fg-muted); font-size: 14px; }
+.card .card-links { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 14px; margin-top: auto; padding-top: 4px; }
+
+.site-footer { padding-top: 48px; padding-bottom: 32px; font-size: 12px; color: var(--fg-faint); }

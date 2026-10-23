@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>motimotinotch — 作ったもの</title>
+  <meta name="description" content="個人で設計・実装・運用しているアプリと、その技術の紹介。">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/svg+xml" href="/icon.svg">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="stylesheet" href="/style.css">
+  <script src="/vendor/d3-subset.min.js" defer></script>
+  <script src="/main.js" defer></script>
+</head>
+<body>
+  <svg id="bg" aria-hidden="true"></svg>
+
+  <header class="site-header">
+    <h1>motimotinotch</h1>
+    <p class="lead">設計から実装・運用まで、ひとりで回しているアプリの紹介です。</p>
+    <nav class="links" aria-label="外部リンク">
+      <a href="https://github.com/MotimotiNotch">GitHub</a>
+      <a href="https://zenn.dev/motimotinotch">Zenn</a>
+    </nav>
+  </header>
+
+  <main>
+    <section aria-labelledby="stack-heading">
+      <h2 id="stack-heading">使っている技術</h2>
+      <p class="note">タグに触れると、背景の図でつながりが光ります。</p>
+      <ul class="tags" id="stack"></ul>
+    </section>
+
+    <section aria-labelledby="works-heading">
+      <h2 id="works-heading">作ったもの</h2>
+      <div class="cards" id="cards"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>背景の図は <a href="/vendor/LICENSE-d3.txt">D3.js</a>（ISC License）で描いています。</p>
+  </footer>
+</body>
+</html>

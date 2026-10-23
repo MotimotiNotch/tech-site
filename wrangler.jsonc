@@ -1,0 +1,12 @@
+// 静的なファイルだけを配る Worker（コードなし）。中身は public/ に置く。
+{
+  "name": "tech-site",
+  "compatibility_date": "2026-05-04",
+  "assets": {
+    "directory": "./public",
+    "not_found_handling": "404-page"
+  },
+  "routes": [
+    { "pattern": "tech.motimotinotch.com", "custom_domain": true }
+  ]
+}
