@@ -4,7 +4,7 @@
   --panel: #ffffff;
   --fg: #222;
   --fg-muted: #555;
-  --fg-faint: #888;
+  --fg-faint: #6f6f6f; /* 背景・パネルとの比 4.56 / 5.02（相対輝度で計算） */
   --line: #d9d9d6;
   --accent: #1e6fb8;
   --graph: #222;
@@ -17,7 +17,7 @@
     --panel: #1b1d21;
     --fg: #e8e8e6;
     --fg-muted: #a9abaf;
-    --fg-faint: #75787d;
+    --fg-faint: #8d9095; /* 背景・パネルとの比 5.80 / 5.27 */
     --line: #2e3136;
     --accent: #64b5f6;
     --graph: #e8e8e6;
@@ -62,7 +62,7 @@ a:hover { text-decoration-color: currentColor; }
 .site-header { padding-top: 64px; padding-bottom: 24px; }
 h1 { font-size: 28px; font-weight: 600; letter-spacing: 0.02em; margin: 0 0 8px; }
 .lead { margin: 0 0 12px; color: var(--fg-muted); }
-.links { display: flex; gap: 16px; font-size: 14px; }
+.links { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 14px; }
 
 h2 { font-size: 17px; font-weight: 600; margin: 48px 0 12px; }
 .note { margin: 0 0 12px; font-size: 13px; color: var(--fg-faint); }
@@ -72,7 +72,7 @@ h2 { font-size: 17px; font-weight: 600; margin: 48px 0 12px; }
   font: inherit;
   font-size: 12px;
   line-height: 1.5;
-  padding: 2px 10px;
+  padding: 3px 10px; /* 高さ 24px（押しやすさの目安） */
   border: 1px solid var(--line);
   border-radius: 999px;
   background: var(--panel);
@@ -116,3 +116,9 @@ h2 { font-size: 17px; font-weight: 600; margin: 48px 0 12px; }
 .card .card-links { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 14px; margin-top: auto; padding-top: 4px; }
 
 .site-footer { padding-top: 48px; padding-bottom: 32px; font-size: 12px; color: var(--fg-faint); }
+.site-footer p { margin: 0 0 4px; }
+
+/* 文章だけのページ（プライバシーポリシー） */
+.prose h2 { margin-top: 32px; }
+.prose p, .prose li { color: var(--fg-muted); }
+.prose ul { padding-left: 1.4em; }

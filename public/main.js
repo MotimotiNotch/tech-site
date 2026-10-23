@@ -42,7 +42,7 @@ const WORKS = [
     name: "loopfinder",
     summary: "ノートとスクリプトと AI で回している作業場の、フィードバックループを見つける。",
     stack: ["JavaScript", "Node.js", "Python", "VS Code 拡張"],
-    image: { src: "/images/loopfinder.png", width: 2000, height: 440, alt: "デモの作業場の流れの図で、ループを1つ選んだところ" },
+    image: { src: "/images/loopfinder.png", width: 1206, height: 644, alt: "作業場の流れの図で、名前のないループが3つ見つかったところ" },
     usage: [
       "loopfinder init で、AI エージェント向けの案内（AGENTS.md）を作る。",
       "普段使っている AI エージェント（Claude Code・Codex・Cursor 等）に読ませて、作業場を調べさせる。",
