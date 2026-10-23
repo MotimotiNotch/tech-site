@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520" role="img" aria-labelledby="t">
+  <title id="t">画像が配られるまでの構成図。閲覧者のリクエストは Worker のプロキシで3つの判定を通ったときだけ R2 の画像に届き、直リンクやスクリプトからの取得はそこで止まる。作品は管理画面と CLI から R2 と KV に登録する。</title>
+  <style>
+    .bg { fill: #ffffff; }
+    .ink { fill: #222; }
+    .muted { fill: #555; }
+    .faint { fill: #6f6f6f; }
+    .line { stroke: #b9b9b6; stroke-width: 2; fill: none; }
+    .dash { stroke: #b9b9b6; stroke-width: 2; fill: none; stroke-dasharray: 6 6; }
+    .lit { stroke: #1e6fb8; stroke-width: 3; fill: none; }
+    .dot { fill: #222; }
+    .dot-lit { fill: #1e6fb8; }
+    .frame { fill: none; stroke: #d9d9d6; stroke-width: 2; }
+    .x { stroke: #555; stroke-width: 3; }
+    text { font-family: system-ui, -apple-system, "Segoe UI", "Hiragino Sans", "Noto Sans JP", sans-serif; }
+    .h { font-size: 26px; font-weight: 600; }
+    .s { font-size: 21px; }
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #1b1d21; }
+      .ink { fill: #e8e8e6; }
+      .muted { fill: #a9abaf; }
+      .faint { fill: #8d9095; }
+      .line, .dash { stroke: #4a4e55; }
+      .lit { stroke: #64b5f6; }
+      .dot { fill: #e8e8e6; }
+      .dot-lit { fill: #64b5f6; }
+      .frame { stroke: #2e3136; }
+      .x { stroke: #a9abaf; }
+    }
+  </style>
+  <rect class="bg" width="800" height="520"/>
+
+  <!-- Worker（中央の枠） -->
+  <rect class="frame" x="250" y="40" width="300" height="300" rx="10"/>
+  <text class="h ink" x="270" y="78">Cloudflare Workers</text>
+  <text class="s faint" x="270" y="106">Astro ＋ API</text>
+  <text class="s muted" x="270" y="150">/api/assets のプロキシ</text>
+  <circle class="dot-lit" cx="282" cy="190" r="6"/>
+  <text class="s ink" x="298" y="197">署名付きの期限 URL</text>
+  <circle class="dot-lit" cx="282" cy="232" r="6"/>
+  <text class="s ink" x="298" y="239">Referer / Origin 一致</text>
+  <circle class="dot-lit" cx="282" cy="274" r="6"/>
+  <text class="s ink" x="298" y="281">直打ちを拒否</text>
+
+  <!-- 閲覧者 → 判定 → R2（守られた経路） -->
+  <circle class="dot-lit" cx="70" cy="150" r="9"/>
+  <text class="h ink" x="40" y="118">閲覧者</text>
+  <path class="lit" d="M79 150 H250"/>
+  <path class="lit" d="M550 150 H700"/>
+  <circle class="dot-lit" cx="710" cy="150" r="9"/>
+  <text class="h ink" x="660" y="118">R2</text>
+  <text class="s muted" x="640" y="190">画像・本文</text>
+
+  <!-- 直リンク・スクリプト（止まる経路） -->
+  <circle class="dot" cx="70" cy="300" r="7"/>
+  <text class="s ink" x="30" y="345">直リンク・</text>
+  <text class="s ink" x="30" y="372">スクリプト</text>
+  <path class="dash" d="M77 300 H222"/>
+  <path class="x" d="M226 288 L246 312 M246 288 L226 312"/>
+
+  <!-- 索引など -->
+  <circle class="dot" cx="710" cy="250" r="7"/>
+  <text class="h ink" x="660" y="230">KV</text>
+  <text class="s muted" x="640" y="290">一覧の索引</text>
+  <path class="line" d="M550 250 H703"/>
+
+  <!-- 登録の流れ -->
+  <circle class="dot" cx="400" cy="440" r="7"/>
+  <text class="h ink" x="250" y="490">管理画面・CLI から登録</text>
+  <path class="line" d="M400 433 V340"/>
+  <text class="s muted" x="414" y="395">差分で索引を更新・</text>
+  <text class="s muted" x="414" y="420">キャッシュを消す</text>
+</svg>

@@ -25,6 +25,7 @@ const WORKS = [
     short: "Warframe",
     summary: "ゲームの依存関係と自分の所持状態をつないで、次の1手を出す。",
     stack: ["TypeScript", "Bun"],
+    image: { src: "/images/warframe.png", width: 1400, height: 820, alt: "Chain View で、作りたいものから部品とレリックを辿った先に、次にやることが「実行可能」として出ているところ" },
     usage: [
       "zip を展開して exe を実行する（インストール不要、Windows）。",
       "作りたいものを登録する。",
@@ -61,6 +62,7 @@ const WORKS = [
     short: "CMS",
     summary: "画像・動画を直リンクやスクリプトから守りつつ公開する、自作の CMS。",
     stack: ["TypeScript", "Astro", "React", "Svelte", "Cloudflare Workers", "R2", "KV", "D1"],
+    image: { src: "/images/cms.svg", width: 800, height: 520, alt: "画像が配られるまでの構成図。閲覧者のリクエストは Worker のプロキシで3つの判定を通ったときだけ R2 の画像に届き、直リンクやスクリプトからの取得はそこで止まる" },
     usage: [
       "管理画面で画像と本文を登録する。サムネイルと OGP 画像はブラウザ側で作る。",
       "写真は手元の CLI から日付フォルダごと縮小して上げ、下書きのまま置く。",
