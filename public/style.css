@@ -116,6 +116,18 @@ h1 { font-size: 28px; font-weight: 600; letter-spacing: 0.02em; margin: 0 0 8px;
 h2 { font-size: 17px; font-weight: 600; margin: 48px 0 12px; }
 .note { margin: 0 0 12px; font-size: 13px; color: var(--fg-faint); }
 
+/* できること: カードより一段静かに。枠を付けず、2列に並べるだけ */
+.strengths {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 460px), 1fr));
+  gap: 12px 32px;
+}
+.strengths h3 { font-size: 15px; font-weight: 600; margin: 0 0 2px; }
+.strengths p { margin: 0; color: var(--fg-muted); font-size: 14px; }
+
 .tags { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; margin: 0; padding: 0; }
 .tag {
   font: inherit;

@@ -36,6 +36,28 @@
   </header>
 
   <main>
+    <section aria-labelledby="strengths-heading">
+      <h2 id="strengths-heading">What I do</h2>
+      <ul class="strengths">
+        <li>
+          <h3>Carry things through on my own</h3>
+          <p>I handle design, implementation, release and operation by myself. Everything below has shipped or is running in production (<a href="#sirube">Sirube</a> and <a href="#warframe">Warframe State Graph</a> as releases, <a href="#loopfinder">loopfinder</a> on the VS Code Marketplace, the <a href="#cms">CMS</a> and <a href="#ruv">Ruv</a> live on Cloudflare).</p>
+        </li>
+        <li>
+          <h3>Check against the real thing, not assumptions</h3>
+          <p>I don't stop at "it should work"; I run it and look at the difference. <a href="#loopfinder">loopfinder</a>'s tests check both the with-hook and without-hook sides, and after each deploy of the <a href="#cms">CMS</a> I actually send requests that should be rejected.</p>
+        </li>
+        <li>
+          <h3>Design within constraints</h3>
+          <p>I shape things assuming budget, APIs or permissions will fall short. <a href="#ruv">Ruv</a> splits its processing into stages to fit the free plan's 10 ms CPU limit, and <a href="#warframe">Warframe State Graph</a> uses one-tap input instead of auto-sync because there's no official inventory API.</p>
+        </li>
+        <li>
+          <h3>Make it understandable to others</h3>
+          <p>I write up what I build so other people can follow it. The <a href="#cms">CMS</a>'s defenses became a book on Zenn, and <a href="#ruv">Ruv</a>'s memory design became articles (both in Japanese).</p>
+        </li>
+      </ul>
+    </section>
+
     <section aria-labelledby="stack-heading">
       <h2 id="stack-heading">Technologies</h2>
       <p class="note">Click or tap a tag or card to select it and light up its connections in the background graph. Click it again, or anywhere empty, to clear.</p>

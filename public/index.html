@@ -36,6 +36,28 @@
   </header>
 
   <main>
+    <section aria-labelledby="strengths-heading">
+      <h2 id="strengths-heading">できること</h2>
+      <ul class="strengths">
+        <li>
+          <h3>ひとりで最後まで持っていく</h3>
+          <p>設計・実装・公開・運用まで、ひとりで回します。下の5つは全部、配布か本番稼働まで出しています（<a href="#sirube">Sirube</a> と <a href="#warframe">Warframe State Graph</a> はリリース配布、<a href="#loopfinder">loopfinder</a> は VS Code Marketplace、<a href="#cms">CMS</a> と <a href="#ruv">Ruv</a> は Cloudflare 上で稼働中）。</p>
+        </li>
+        <li>
+          <h3>推測で決めず、実物で確かめる</h3>
+          <p>「動くはず」で止めず、実際に動かして差を見ます。<a href="#loopfinder">loopfinder</a> は「フックあり／なし」の両側をテストで確かめ、<a href="#cms">CMS</a> はデプロイの後に、拒否されるべきリクエストを実際に投げています。</p>
+        </li>
+        <li>
+          <h3>制約の中で設計する</h3>
+          <p>予算・API・権限が足りないことを前提に形を決めます。<a href="#ruv">Ruv</a> は無料枠の CPU 10ms に収まるよう処理を段に分け、<a href="#warframe">Warframe State Graph</a> は所持状態を取れる公式 API が無いので、自動同期をやめて1タップの入力にしました。</p>
+        </li>
+        <li>
+          <h3>人に分かる形にする</h3>
+          <p>作った仕組みを、他の人が読める文章に起こします。<a href="#cms">CMS</a> の防御は Zenn の本に、<a href="#ruv">Ruv</a> の記憶の設計は記事にまとめています。</p>
+        </li>
+      </ul>
+    </section>
+
     <section aria-labelledby="stack-heading">
       <h2 id="stack-heading">使っている技術</h2>
       <p class="note">タグやカードを押すと選んだ状態になり、背景の図でつながりが光ります。もう一度押すか、何も無いところを押すと外れます。</p>
