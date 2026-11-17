@@ -53,6 +53,38 @@ const WORKS = [
     ],
   },
   {
+    id: "sudare",
+    name: "Sudare",
+    summary: {
+      ja: "写真に写り込んだ人の顔に、まとめてモザイクをかけて、目で確かめて直す。",
+      en: "Mosaics every face in your photos at once, then lets you check and fix them by eye.",
+    },
+    stack: ["TypeScript", "Rust", "Tauri", "Bun"],
+    image: {
+      src: "/images/sudare.jpg",
+      width: 1400,
+      height: 900,
+      alt: {
+        ja: "参拝の人の顔にモザイクがかかり、車の窓から顔を出した犬に付いた枠は外してある画面",
+        en: "Faces of people at a shrine are mosaicked, while the box on a dog looking out of a car window has been removed",
+      },
+    },
+    usage: [
+      { ja: "写真のフォルダを開くと、見つけた顔に最初から全部モザイクがかかる。", en: "Open a folder of photos and every face it finds starts out mosaicked." },
+      { ja: "犬や像など、顔でないものに付いた枠は押して外す。", en: "Click to remove boxes on things that aren't faces, like dogs or statues." },
+      { ja: "見落とした顔は、写真の上を囲んで足す。", en: "Draw a box over any face it missed to add it." },
+      { ja: "確かめた写真だけを書き出す。元の写真は書き換えない。", en: "Export only the photos you've checked. The originals are never overwritten." },
+    ],
+    tech: {
+      ja: "Tauri のデスクトップアプリ（Windows）。顔の検出は YuNet を Rust の推論ライブラリ（tract）で手元で動かし、写真は PC の外に出ない。書き出しでは位置情報などの EXIF を落とす。",
+      en: "A Tauri desktop app (Windows). Face detection runs YuNet locally through a Rust inference library (tract), so photos never leave your PC. Exports drop EXIF such as location.",
+    },
+    links: [
+      { label: "GitHub", href: "https://github.com/MotimotiNotch/sudare" },
+      { label: { ja: "ダウンロード", en: "Download" }, href: "https://github.com/MotimotiNotch/sudare/releases/latest" },
+    ],
+  },
+  {
     id: "warframe",
     name: "Warframe State Graph",
     short: "Warframe",
