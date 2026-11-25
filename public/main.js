@@ -121,6 +121,32 @@ const WORKS = [
     ],
   },
   {
+    id: "lens",
+    name: { ja: "焦点距離チェッカー", en: "Focal Length Checker" },
+    short: "Lens",
+    summary: {
+      ja: "撮った写真を読ませると、どの焦点距離・明るさに偏っているかが分かり、次のレンズの候補が出る。",
+      en: "Feed it your photos and it shows which focal lengths and apertures you lean on, and suggests the next lens.",
+    },
+    stack: ["TypeScript", "Bun", "three.js", "Cloudflare Workers"],
+    usage: [
+      {
+        ja: "PC は「フォルダを選ぶ」、スマホ・タブレットは「写真を選ぶ」で写真を読ませる。",
+        en: "On a PC, choose a folder; on a phone or tablet, pick photos from your library.",
+      },
+      { ja: "焦点距離と明るさの偏りが出る。", en: "It shows where your focal lengths and apertures cluster." },
+      {
+        ja: "「広角端（換算 24mm）に 74% 張り付いています。もっと広いレンズが候補です」のように、次のレンズを文で返す。",
+        en: "It answers in a sentence, e.g. \"74% of your shots sit at the wide end (24mm equivalent); a wider lens is a candidate.\"",
+      },
+    ],
+    tech: {
+      ja: "読むのは各ファイルの先頭にある撮影情報（Exif）だけで、画像の本体は開かない。JPEG・HEIC と各社の RAW から Exif を自前で読み、換算の焦点距離を書かないカメラは、撮像面の解像度と画素数から撮像面の大きさを出して換算する。同じ1コマの RAW と JPEG は1つに数える。集計はブラウザの中だけで行い、CSP の connect-src 'none' でページからの通信そのものを禁じている。",
+      en: "It reads only the shooting data (Exif) at the start of each file and never opens the image itself. Exif is parsed in-house from JPEG, HEIC and each maker's RAW; for cameras that don't record a 35mm-equivalent focal length, the sensor size is derived from its resolution and pixel count. A RAW and JPEG of the same frame count once. Everything is tallied in the browser, and the page's CSP (connect-src 'none') forbids it from making any network request at all.",
+    },
+    links: [{ label: { ja: "開く", en: "Open" }, href: "https://lens.motimotinotch.com" }],
+  },
+  {
     id: "loopfinder",
     name: "loopfinder",
     summary: {
@@ -163,6 +189,32 @@ const WORKS = [
       { label: "GitHub", href: "https://github.com/MotimotiNotch/loopfinder" },
       { label: "VS Code Marketplace", href: "https://marketplace.visualstudio.com/items?itemName=motimotinotch.loopfinder" },
     ],
+  },
+  {
+    id: "grounding",
+    name: "grounding-check",
+    short: "grounding",
+    summary: {
+      ja: "AI エージェントが確信のある主張や「新しい」という主張を書く前に通す、2つの関門。Claude Code のスキル。",
+      en: "Two gates an AI agent passes through before writing a confident or novel claim. A Claude Code skill.",
+    },
+    stack: ["Claude Code"],
+    usage: [
+      { ja: "スキルのフォルダを .claude/skills/ に写す。", en: "Copy the skill folder into .claude/skills/." },
+      {
+        ja: "新しさを言い切る前・1件から一般化する前・確信のある技術的な主張を書く前に、エージェントがこのスキルを通す。",
+        en: "The agent runs it before asserting novelty, generalizing from one case, or writing a confident technical claim.",
+      },
+      {
+        ja: "関門1: 具体と抽象のどの高さで言っているか。関門2: 自分の推論の外（検索・実際に開いたファイル・人への確認）に触れたか。",
+        en: "Gate 1: at what altitude between concrete and abstract is the claim pitched? Gate 2: has it touched anything outside its own reasoning (a search, a file actually opened, a question actually asked)?",
+      },
+    ],
+    tech: {
+      ja: "Markdown 1枚のスキルで、コードは無い。検索結果の抜粋を見ただけでは「外に触れた」に数えない、と関門2を締め直した版を公開している。README の関連研究の節も、締め直した規則で確かめ直して1件訂正した。",
+      en: "A single Markdown file, no code. The published version tightens Gate 2 so that a search snippet alone doesn't count as touching an outside source, and the README's related-work section was re-checked under that rule, correcting one claim.",
+    },
+    links: [{ label: "GitHub", href: "https://github.com/MotimotiNotch/grounding-check" }],
   },
   {
     id: "cms",

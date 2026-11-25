@@ -41,7 +41,7 @@
       <ul class="strengths">
         <li>
           <h3>Carry things through on my own</h3>
-          <p>I handle design, implementation, release and operation by myself. Everything below has shipped or is running in production (<a href="#sirube">Sirube</a>, <a href="#sudare">Sudare</a> and <a href="#warframe">Warframe State Graph</a> as releases, <a href="#loopfinder">loopfinder</a> on the VS Code Marketplace, the <a href="#cms">CMS</a> and <a href="#ruv">Ruv</a> live on Cloudflare).</p>
+          <p>I handle design, implementation, release and operation by myself. Everything below has shipped or is running in production (<a href="#sirube">Sirube</a>, <a href="#sudare">Sudare</a> and <a href="#warframe">Warframe State Graph</a> as releases, <a href="#loopfinder">loopfinder</a> on the VS Code Marketplace, <a href="#grounding">grounding-check</a> on GitHub, the <a href="#lens">Focal Length Checker</a>, the <a href="#cms">CMS</a> and <a href="#ruv">Ruv</a> live on Cloudflare).</p>
         </li>
         <li>
           <h3>Check against the real thing, not assumptions</h3>
@@ -67,6 +67,29 @@
     <section aria-labelledby="works-heading">
       <h2 id="works-heading">Things I've built</h2>
       <div class="cards" id="cards"></div>
+    </section>
+
+    <section aria-labelledby="maintenance-heading">
+      <h2 id="maintenance-heading">Migration and maintenance</h2>
+      <p class="note">A record of keeping a personal site (Astro + Cloudflare Workers, home of the <a href="#cms">CMS</a> above) upgraded and fixed while it stays live in production.</p>
+      <ul class="strengths">
+        <li>
+          <h3>Major framework migrations (Astro 5 → 6 → 7)</h3>
+          <p>Going from 5 to 6, I hit the fact that on Cloudflare Pages a page can't call its own API while rendering (1042 Loopback), so I dropped Pages and moved the whole setup to Workers. Data now comes from a layer that reads R2 and KV directly instead of going over HTTP. Going from 6 to 7, the build stopped with an error saying it might be a bug in Astro. I nearly blamed open upstream issues, but dug back in and found the cause in my own package.json: an override pinning Vite to an old version. I also fixed a regression that showed up after release, where CSS minification dropped the blur (backdrop-filter).</p>
+        </li>
+        <li>
+          <h3>Measure what's slow, then fix it</h3>
+          <p>One page read KV 14 times in sequence, so with a cold edge cache it took about 3.7 seconds to respond. I batched the reads in parallel and re-measured with a cold cache: 3.75 s → 0.34 s (about 11× faster). The admin screens fetched every record one by one (N+1); they now read from the index that already exists. The API was also returning no-store, leaving the cache hit rate at 0.9%; I tracked that down and removed it.</p>
+        </li>
+        <li>
+          <h3>Audit and close holes in my own production</h3>
+          <p>I went through the public APIs and the upload path and closed what I found, such as an endpoint that accepted writes without logging in, and one that served files with whatever Content-Type the upload declared. When a storage setting left the original images open to anyone, I shut off public access first and fixed the leaks in the delivery path afterwards. Twice, a defense I had already fixed quietly came undone through later changes, so I wrote tests that send requests which should be rejected, and CI runs them on every deploy.</p>
+        </li>
+        <li>
+          <h3>Keep dependencies moving</h3>
+          <p>Updates had fallen behind because they were left to manual work, so I set up Dependabot, then fixed its PRs all failing in CI for lack of permissions and piling up. A major update (zod v4) broke the admin screen's error display and sat in production for three months; I traced and fixed it once I noticed it there. I handled the removal of Node 20 from GitHub Actions ahead of the deadline, and each week I read the dependency diffs and Cloudflare's changelog and file tickets for what applies.</p>
+        </li>
+      </ul>
     </section>
   </main>
 

@@ -41,7 +41,7 @@
       <ul class="strengths">
         <li>
           <h3>ひとりで最後まで持っていく</h3>
-          <p>設計・実装・公開・運用まで、ひとりで回します。下の6つは全部、配布か本番稼働まで出しています（<a href="#sirube">Sirube</a>・<a href="#sudare">Sudare</a>・<a href="#warframe">Warframe State Graph</a> はリリース配布、<a href="#loopfinder">loopfinder</a> は VS Code Marketplace、<a href="#cms">CMS</a> と <a href="#ruv">Ruv</a> は Cloudflare 上で稼働中）。</p>
+          <p>設計・実装・公開・運用まで、ひとりで回します。下の8つは全部、配布か本番稼働まで出しています（<a href="#sirube">Sirube</a>・<a href="#sudare">Sudare</a>・<a href="#warframe">Warframe State Graph</a> はリリース配布、<a href="#loopfinder">loopfinder</a> は VS Code Marketplace、<a href="#grounding">grounding-check</a> は GitHub で公開、<a href="#lens">焦点距離チェッカー</a>・<a href="#cms">CMS</a>・<a href="#ruv">Ruv</a> は Cloudflare 上で稼働中）。</p>
         </li>
         <li>
           <h3>推測で決めず、実物で確かめる</h3>
@@ -67,6 +67,29 @@
     <section aria-labelledby="works-heading">
       <h2 id="works-heading">作ったもの</h2>
       <div class="cards" id="cards"></div>
+    </section>
+
+    <section aria-labelledby="maintenance-heading">
+      <h2 id="maintenance-heading">移行・保守</h2>
+      <p class="note">上の <a href="#cms">CMS</a> を載せた個人サイト（Astro + Cloudflare Workers）を、本番で動かしたまま上げ続け、直し続けている記録です。</p>
+      <ul class="strengths">
+        <li>
+          <h3>フレームワークのメジャー移行（Astro 5 → 6 → 7）</h3>
+          <p>5 → 6 では、Cloudflare Pages だとページの生成中に自分の API を呼べない（1042 Loopback）ことに移行の途中で当たり、Pages をやめて構成ごと Workers へ移しました。データは HTTP 経由をやめ、R2・KV を直接読む層から取っています。6 → 7 では、ビルドが「Astro のバグかもしれない」というエラーで止まりました。上流の未解決 issue に原因を求めかけましたが、追い直して、自分の package.json の overrides が Vite を古い版に固定していたのが原因だと突き止めました。公開後に出た、CSS の圧縮でぼかし（backdrop-filter）が消える不具合も直しています。</p>
+        </li>
+        <li>
+          <h3>遅いところを測って直す</h3>
+          <p>あるページが KV を14回、順番に待って読んでいて、エッジのキャッシュが冷えていると表示まで約3.7秒かかっていました。読みを並列にまとめ、キャッシュが冷えた状態で計り直して 3.75秒 → 0.34秒（約11倍）にしています。管理画面で全件を1件ずつ取りに行っていた（N+1）のは、作ってある索引から読むように直しました。API が no-store を返していてキャッシュのヒット率が 0.9% だったのも、原因を見つけて外しています。</p>
+        </li>
+        <li>
+          <h3>自分の本番を点検して塞ぐ</h3>
+          <p>公開している API とアップロードの経路を一通り点検し、ログインしていなくても書き込める口や、宣言された Content-Type をそのまま信じて配信していた口などを見つけて塞ぎました。ストレージの公開設定のせいで原本の画像が誰でも取れる状態になっていたときは、まず公開を止め、配信経路の漏れは後から直しています。一度直したはずの防御が後の変更で気づかないうちに戻っていたことが2回続いたので、「拒否されるべきリクエスト」を投げるテストを用意し、デプロイのたびに CI で流しています。</p>
+        </li>
+        <li>
+          <h3>依存の更新を止めない</h3>
+          <p>依存の更新が手作業任せで遅れていたので Dependabot を入れ、その後、更新の PR が CI の権限不足で全部落ちて溜まっていたのも直しました。メジャー更新（zod v4）で管理画面のエラー表示が壊れたまま3か月本番に残っていた件は、本番で気づいてから原因を辿って直しています。GitHub Actions の Node 20 廃止には期限の前に対応し、毎週、依存パッケージの差分と Cloudflare の変更履歴を読んで、当てはまるものをチケットにしています。</p>
+        </li>
+      </ul>
     </section>
   </main>
 
